@@ -1,0 +1,24 @@
+{
+	"name": "play-with-elasticsearch-redis",  // change the name here
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "user-streaming-server",
+	"workspaceFolder": "/opt/python-user/code",
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "zsh",
+				"terminal.integrated.profiles.linux": {
+					"zsh": {
+						"path": "/bin/zsh"
+					}
+				},
+			},
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+			]
+		}
+	},
+	"postCreateCommand": "poetry install --with dev",
+	"remoteUser": "python-user"
+}
