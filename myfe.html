@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <title>play with sockets</title>
+  </head>
+  <body>
+    <h1>Events</h1>
+    <div id="title">your messages</div>
+
+    <div id="stream1"></div>
+    <hr>
+    <script>
+      const log_q1 = (text) => {
+        document.getElementById('stream1').innerHTML += text;
+      };
+      // notification-eve.platform.dev.motiong.net
+      // change the user-id to any user id matched to the routingkey when you send the message
+      const socket_x_1 = new WebSocket('wss://notification-eve.platform.dev.motiong.net/user-notification/v1/connect?user_id=user-id');
+      socket_x_1.addEventListener('message', ev => {
+        log_q1(ev.data);
+      });
+    </script>
+  </body>
+</html>
