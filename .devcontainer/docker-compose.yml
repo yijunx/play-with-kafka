@@ -12,6 +12,8 @@ services:
       - ../.devcontainer/zshrc:/opt/python-user/.zshrc
       - ..:/opt/python-user/code
     command: ["tail -f /dev/null"]
+    networks:
+      - playground
 
   zookeeper:
     image: bitnami/zookeeper:latest
@@ -20,6 +22,8 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
     ports:
       - "2181:2181"
+    networks:
+      - playground
 
   kafka:
     image: bitnami/kafka:latest
@@ -32,3 +36,5 @@ services:
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
     depends_on:
       - zookeeper
+    networks:
+      - playground

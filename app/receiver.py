@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 logger.addHandler(logging.StreamHandler())
 logger.setLevel("DEBUG")
+import uuid
 
 
 class Receiver:
@@ -21,7 +22,7 @@ class Receiver:
         # later we use the configuration haha
         conf = {
             "bootstrap.servers": "kafka:9092",
-            "group.id": "frontend-user-1234",
+            "group.id": str(uuid.uuid4()),
             "auto.offset.reset": "earliest",
         }
 
@@ -33,31 +34,34 @@ class Receiver:
         logger.debug(f"Start receiving messages for {self.routing_key}")
         try:
             while True:
-                # message = self.p.get_message()
-                # if message and message["type"] == "message":
-                #     string_data = message["data"].decode("utf-8")
-                #     ws.send(string_data)
-                # time.sleep(0.01)
                 msg = self.consumer.poll(1.0)
-                if msg is None:
-                    # print("No message received")
-                    continue
-                print(msg.key())
-                print(msg.key().decode("utf-8"))
-                if msg.key().decode("utf-8") == self.routing_key:
-                    ws.send(msg.value().decode("utf-8"))
-
                 if ws.connected is False:
                     self.terminate()
                     print("Connection closed")
                     break
+
+                if msg is None:
+                    # print("No message received")
+                    continue
+                print("### message ###")
+                print(msg.key())
+                print(msg.value().decode("utf-8"))
+                print("### message ###")
+                if msg.key() and msg.key().decode("utf-8") == self.routing_key:
+                    ws.send(msg.value().decode("utf-8"))
+                # except Exception as e:
+                #     print(msg.value())
+                #     print(e)
+
+                # ws.send(msg.value().decode("utf-8"))
+
         except Exception as e:
             logger.debug(e)
             self.terminate()
 
     def terminate(self):
         try:
-            self.r.close()
+            self.consumer.close()
             logger.debug(f"Session ended. Queue for {self.routing_key} is cleared")
         except Exception as e:
             logger.error(f"Connection close error: {e}")
