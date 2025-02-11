@@ -13,26 +13,47 @@ services:
       - ..:/opt/python-user/code
     command: ["tail -f /dev/null"]
 
-  zookeeper-for-kafka:
-    image: confluentinc/cp-zookeeper:7.5.0
+  # zookeeper-for-kafka:
+  #   image: confluentinc/cp-zookeeper:7.5.0
+  #   environment:
+  #     ZOOKEEPER_CLIENT_PORT: 2181
+  #     ZOOKEEPER_TICK_TIME: 2000
+  #   # ports:
+  #   #   - "2181:2181"
+  #   networks:
+  #     - playground
+
+  # kafka:
+  #   image: confluentinc/cp-kafka:7.5.0
+  #   depends_on:
+  #     - zookeeper-for-kafka
+  #   # ports:
+  #   #   - "9092:9092"
+  #   environment:
+  #     KAFKA_BROKER_ID: 1
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper-for-kafka:2181
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #   networks:
+  #     - playground
+
+  # ========== Kafka ==========
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    # ports:
-    #   - "2181:2181"
-    networks:
-      - playground
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - "2181:2181"
 
   kafka:
-    image: confluentinc/cp-kafka:7.5.0
-    depends_on:
-      - zookeeper-for-kafka
-    # ports:
-    #   - "9092:9092"
+    image: bitnami/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper-for-kafka:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    networks:
-      - playground
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+    depends_on:
+      - zookeeper
