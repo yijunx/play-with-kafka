@@ -15,7 +15,7 @@
       };
       // notification-eve.platform.dev.motiong.net
       // change the user-id to any user id matched to the routingkey when you send the message
-      const socket_x_1 = new WebSocket('wss://notification-eve.platform.dev.motiong.net/user-notification/v1/connect?user_id=user-id');
+      const socket_x_1 = new WebSocket('ws://localhost:8000/user-notification/v1/generic-connect?user_id=user-1234');
       socket_x_1.addEventListener('message', ev => {
         log_q1(ev.data);
       });

@@ -1,4 +1,4 @@
-# # # gunicorn -b 0.0.0.0:5000 --workers 4 --threads 100 app.main:app
+# # # gunicorn -b 0.0.0.0:8000 --workers 4 --threads 100 app.main:app
 
 import json
 import logging
@@ -49,7 +49,6 @@ def liveness():
 def connect(ws: Server):
     # used the auth to check if user_id and chat_id are replated
     user_id = request.args.get("user_id")
-    chat_id = request.args.get("chat_id")
     try:
         # actor = get_actor_from_request(request)
         logger.info(f"authenticated user: {user_id}")
@@ -63,7 +62,7 @@ def connect(ws: Server):
 
     try:
         # lets separate the routing key for eve
-        r = Receiver(routing_key=chat_id)
+        r = Receiver(routing_key=user_id)
         r.start(ws)
     except Exception as e:
         logger.error(f"receiver error {e}")
