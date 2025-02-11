@@ -28,7 +28,10 @@ if __name__ == "__main__":
 
     topic = "chat-messages"
     key = "user-1234"
-    message = json.dumps({"message": "Hello, World!", "ennded": False})
+    message = json.dumps(
+        {"message": "Hello, World!啦啦啦哈哈哈😄🎉", "ennded": False},
+        ensure_ascii=False,
+    )
 
     # Publish message
     producer.produce(topic=topic, key=key, value=message, callback=delivery_report)
