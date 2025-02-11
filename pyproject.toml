@@ -6,7 +6,7 @@ authors = [
     {name = "yijunx"}
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<=3.13"
 dependencies = [
     "confluent-kafka (>=2.8.0,<3.0.0)",
     "flask (>=3.1.0,<4.0.0)",
@@ -26,4 +26,5 @@ isort = "^6.0.0"
 black = "^25.1.0"
 pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
+types-confluent-kafka = "^1.3.1"
 

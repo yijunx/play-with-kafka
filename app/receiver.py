@@ -21,13 +21,20 @@ class Receiver:
     ):
         # later we use the configuration haha
         conf = {
-            "bootstrap.servers": "kafka:9092",
+            "bootstrap.servers": f"{configurations.KAFKA_HOST}:{configurations.KAFKA_PORT}",
+            # all browser tabs get the lastest message only
             "group.id": str(uuid.uuid4()),
-            "auto.offset.reset": "earliest",
+            "auto.offset.reset": "latest",
+            # one browser, but gets all message from earliest once
+            # cos the auto.commit is True
+            # "group.id": "fixed-froup-how",
+            # "auto.offset.reset": "earliest",
+            # 'enable.auto.commit': True,
         }
 
         self.consumer = Consumer(conf)
-        self.consumer.subscribe(["chat-messages"])
+        # here we can do multiple topic
+        self.consumer.subscribe([configurations.KAFKA_TOPIC])
         self.routing_key = routing_key
 
     def start(self, ws: Server):
@@ -49,11 +56,6 @@ class Receiver:
                 print("### message ###")
                 if msg.key() and msg.key().decode("utf-8") == self.routing_key:
                     ws.send(msg.value().decode("utf-8"))
-                # except Exception as e:
-                #     print(msg.value())
-                #     print(e)
-
-                # ws.send(msg.value().decode("utf-8"))
 
         except Exception as e:
             logger.debug(e)
@@ -65,13 +67,3 @@ class Receiver:
             logger.debug(f"Session ended. Queue for {self.routing_key} is cleared")
         except Exception as e:
             logger.error(f"Connection close error: {e}")
-
-
-# if __name__ == "__main__":
-#     r = Receiver(routing_key="user-id")
-
-#     def callback(body):
-#         print(body.decode("utf-8"))
-#         # try json..
-
-#     r.start(callback=callback)

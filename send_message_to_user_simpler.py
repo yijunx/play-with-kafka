@@ -1,6 +1,9 @@
-from confluent_kafka import Producer
-from logging import getLogger
 import json
+from logging import getLogger
+
+from confluent_kafka import Producer
+
+from app.config import configurations
 
 logger = getLogger(__name__)
 
@@ -17,7 +20,7 @@ def delivery_report(err, msg):
 if __name__ == "__main__":
     # Kafka Producer configuration
     conf = {
-        "bootstrap.servers": "kafka:9092",  # Replace with your Kafka broker
+        "bootstrap.servers": f"{configurations.KAFKA_HOST}:{configurations.KAFKA_PORT}",  # Replace with your Kafka broker
         "security.protocol": "PLAINTEXT",  # Change to 'SSL' or 'SASL_SSL' if needed
         # 'sasl.mechanism': 'PLAIN',  # Uncomment if using SASL authentication
         # 'sasl.username': 'your_username',  # Replace with your username
@@ -26,7 +29,7 @@ if __name__ == "__main__":
 
     producer = Producer(conf)
 
-    topic = "chat-messages"
+    topic = configurations.KAFKA_TOPIC
     key = "user-1234"
     message = json.dumps(
         {"message": "Hello, World!啦啦啦哈哈哈😄🎉", "ennded": False},

@@ -4,10 +4,9 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    REDIS_HOST: Optional[str] = "redis"
-    REDIS_PORT: Optional[str] = "6379"
-    REDIS_USERNAME: Optional[str] = "default"
-    REDIS_PASSWORD: Optional[str] = "passwordcool"
+    KAFKA_HOST: Optional[str] = "kafka"
+    KAFKA_PORT: Optional[str] = "9092"
+    KAFKA_TOPIC: Optional[str] = "chat-messages"
 
 
 configurations = Settings()
