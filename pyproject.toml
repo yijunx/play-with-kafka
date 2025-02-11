@@ -1,0 +1,28 @@
+[project]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "yijunx"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "confluent-kafka (>=2.8.0,<3.0.0)",
+    "flask (>=3.1.0,<4.0.0)",
+    "flask-cors (>=5.0.0,<6.0.0)",
+    "flask-sock (>=0.7.0,<0.8.0)",
+    "gunicorn (>=23.0.0,<24.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+isort = "^6.0.0"
+black = "^25.1.0"
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
+

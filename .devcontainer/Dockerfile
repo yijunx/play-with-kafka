@@ -24,20 +24,12 @@ RUN apt-get update && \
     apt-get install -y postgresql-client && \
     apt-get install -y openssh-client && \
     pip install --upgrade pip && \
-    pip install poetry==1.8.3 && \
+    pip install poetry==2.0.1 && \
     poetry config virtualenvs.create false
 
 # Install zsh, omz, plugins
 RUN apt-get install -y zsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-# Install yq (for yaml and json)
-RUN wget https://github.com/mikefarah/yq/releases/download/v4.40.7/yq_linux_amd64 -O /usr/bin/yq && \
-    chmod +x /usr/bin/yq
-
-# Install kubectl
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
-install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # will add examples to install our own python modules
 # maybe not via git+ssh, well we will decide later if we have any

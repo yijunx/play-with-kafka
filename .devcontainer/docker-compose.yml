@@ -1,5 +1,5 @@
 networks:
-  utilities:
+  playground:
     external: true
 
 services:
@@ -21,7 +21,7 @@ services:
     # ports:
     #   - "2181:2181"
     networks:
-      - utilities
+      - playground
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
@@ -35,4 +35,4 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
-      - utilities
+      - playground

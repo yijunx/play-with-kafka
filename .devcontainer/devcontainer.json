@@ -1,5 +1,5 @@
 {
-	"name": "play-with-elasticsearch-redis",  // change the name here
+	"name": "play-with-kafka",  // change the name here
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "user-streaming-server",
 	"workspaceFolder": "/opt/python-user/code",
