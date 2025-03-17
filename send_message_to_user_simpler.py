@@ -38,6 +38,6 @@ if __name__ == "__main__":
 
     # Publish message
     producer.produce(topic=topic, key=key, value=message, callback=delivery_report)
-    producer.flush()  # Wait until all messages are delivered
+    producer.flush(timeout=5)  # Wait until all messages are delivered
 
     logger.info("Message publishing complete.")
